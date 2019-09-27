@@ -31,17 +31,21 @@ $(document).ready(function () {
 		//add apiKey
 		queryURL += `api_key=${apiKey}`
 
-		return queryURL	
+		return queryURL
 	}
 
 	function buildHTML(data) {
 		let bodyDiv = $("<div>");
 		for (let i = 0; i < data.length; i++) {
 			let img = $("<img>")
+			let imageDiv = $("<div>")
 			img.attr("src", data[i].images.fixed_width_still.url)
 			console.log("building html...")
 			console.log(data[i].images.fixed_width_still.url)
-			bodyDiv.append(img)
+			imageDiv.append(img)
+			console.log(data.rating)
+			imageDiv.append(`<br>Rating: ${data[i].rating}`)
+			bodyDiv.append(imageDiv)
 		}
 
 		$("#images-container").prepend(bodyDiv)
@@ -61,25 +65,27 @@ $(document).ready(function () {
 
 	buildButtons(topics)
 
-
 	$("#search-submit").click(function () {
 		console.log("search submitted")
 		console.log($("#search-query").val())
 		search($("#search-query").val(), 10, "G")
 	})
 
-
 	$("#search-add").on("click", function () {
-		topics.push( $("#search-query").val() )
-		$("#buttons-container").empty()
-		buildButtons(topics)
+		let query = $("#search-query").val()
+		console.log(query)
+		if (topics.includes(query)) {
+			topics.push($("#search-query").val())
+			$("#buttons-container").empty()
+			buildButtons(topics)
+		} else {
+			alert("Already a button")
+		}
 	})
 
 	$(document).on("click", ".queryButton", function () {
 		console.log("query button clicked")
 		search($(this).text(), 10, "g")
 	})
-
-
 
 })
