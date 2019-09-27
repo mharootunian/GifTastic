@@ -74,7 +74,7 @@ $(document).ready(function () {
 	$("#search-add").on("click", function () {
 		let query = $("#search-query").val()
 		console.log(query)
-		if (topics.includes(query)) {
+		if (!topics.includes(query)) {
 			topics.push($("#search-query").val())
 			$("#buttons-container").empty()
 			buildButtons(topics)
